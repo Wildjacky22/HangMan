@@ -1,19 +1,13 @@
 clc; clear;
 
-dash = '\';
+play = 1;
+while play == 1
 
-fprintf('\n**********HANGMAN**********\n')
-
-fprintf('  ---------|   \n')
-fprintf('  |        0   \n')
-fprintf('  |       /|%s \n', dash)
-fprintf('  |       / %s \n', dash)
-fprintf('  |  By: Jack Glassmire, Deven Deickert, Sydney Schryer, \n')
-fprintf('__|__          and Chamyukthan SampathKumar              \n')
-
-clear;
-%%
-words = {'all','bake','cat','death','ear','fear','garage','hallway'...
+    clear word;
+    clear answer;
+    
+    %possible words
+    words = {'all','bake','cat','death','ear','fear','garage','hallway'...
     'inside','joker','kettle','lame','men','never','options'...
     'pulse','quest','roles','streets','tailer','under','viral','wide'...
     'xeon','yesterday','zoo','titanic','book','airplane','swimming'...
@@ -21,58 +15,153 @@ words = {'all','bake','cat','death','ear','fear','garage','hallway'...
     'scare','destiny','friends','tell','ride','clones','purple','hearts'...
     'trapping','hand','face','fake','inbox','broken','hate','star'...
     'rockstar','nascar','red','roses','spark','midnight','light'...
-    'dark','nobody','mother','body','she','sloppy','mainecoon'...
-    'depends','math',};
-animals = {'cat','dog','aardvark','lizard','mouse','ostrich'...
-    'python','armadillo','spider','tarantula','tiger','lion'...
-    'hippo','koi','kangaroo','koala','monkey','penguin','bear','fox'};
-transportation = {'car','suv','truck','van','sedan','plane','hovercraft'...
-    'boat','cart','yahct','blimp','jet','scooter','bus','train'...
-    'subway','skates','bicycle','tractor','motorcycle'};
-sports = {'tennis','cricket','baseball','basketball','spikeball'...
-    'volleyball','golf','soccer','football','nascar','lacrosse'...
-    'rugby','polo','croquet','bowling','pool','track','swimming'...
-    'esports','badminton'};
-cities = {'athens','rome','paris','london','tokyo','columbus'...
-    'austin','denver','charelston','beijing','toronto','dublin'...
-    'miami','cleveland','cincinnati','amsterdam','pheonix'...
-    'dallas','detroit','philidalphia'};
+    'dark','nobody','mother','body','she','sloppy'};
 
-num = rand(1,1); %picking a random number 
-num = 69*num;
-num = ceil(num);
-answer = words(num) % turning that number to a word from the list
-answer = char(answer); % breaking that word into characters
+%picking words
+size = numel(words);
+word = words(randperm(size,1));
+%turning word into a string of characters
+word = char(word);
+    
+%title screen
+dash = '\';
+
+fprintf('\n**********WELCOME*TO*HANGMAN**********\n')
+
+fprintf('  ---------|     \n')
+fprintf('  |        0     \n')
+fprintf('  |       /|%s \n', dash)
+fprintf('  |       / %s \n', dash)
+fprintf('  |  By: Jack Glassmire, Deven Deickert, Sydney Schryer, \n')
+fprintf('__|__          and Chamyukthan SampathKumar \n')
+fprintf('\n')
+fprintf('\nPlease only enter lowercase letters, press enter after selecting a letter')
+fprintf('\n                              Good Luck!!                                ')
 
 
-len = length(answer); % finding the length of the word
-for k = 1 :len
-    un(k) = '*';
+len = length(word);
+for i =1:len
+   
+    fprintf('\n');
+    answer(i) = '-';
+
 end
 
+fprintf('\n')
+fprintf('\nYour word has %i letters!\n', len);
+fprintf('%s\n', answer);
+fprintf('\n');
 
+%times till your out
+strikes = 1;
+%does user want to play again
+play = 1;
 
-%%
-m = 1;
-d = 5;
-for m=1:6 % giving them five attempts
+while strikes <= 6
     
-    fprintf('\nYou have %d attempts left', d)
-    ch = input(': ','s');
-    n = 0;
-    for i = 1 : len
-        if (ch == answer(i))
-            un(i) = ch;
-            n = n +1;
+    if strikes <= 6
+        guess = input('\nGuess a Letter: ', 's');
+    
+        for i = 1:len
+            
+            if word(i) == guess
+            
+                answer(i) = guess;
+
+            end
         end
+        
+        if (strikes == 1 && word(i) ~= guess)
+          
+            fprintf('  ---------|   \n')
+            fprintf('  |        0   \n')
+            fprintf('  |            \n')
+            fprintf('  |            \n')
+            fprintf('  |            \n')
+            fprintf('__|__          \n')  
+        
+            strikes = strikes + 1;
+            
+        elseif (strikes == 2 && word(i) ~= guess)
+          
+            fprintf('  ---------|   \n')
+            fprintf('  |        0   \n')
+            fprintf('  |        |   \n')
+            fprintf('  |            \n')
+            fprintf('  |            \n')
+            fprintf('__|__          \n')  
+        
+            strikes = strikes + 1;
+            
+        elseif (strikes == 3 && word(i) ~= guess)
+          
+            fprintf('  ---------|   \n')
+            fprintf('  |        0   \n')
+            fprintf('  |       /|   \n')
+            fprintf('  |            \n')
+            fprintf('  |            \n')
+            fprintf('__|__          \n')  
+        
+            strikes = strikes + 1;
+            
+        elseif (strikes == 4 && word(i) ~= guess)
+          
+            fprintf('  ---------|   \n')
+            fprintf('  |        0   \n')
+            fprintf('  |       /|%s \n', dash)
+            fprintf('  |            \n')
+            fprintf('  |            \n')
+            fprintf('__|__          \n')  
+        
+            strikes = strikes + 1;
+            
+        elseif (strikes == 5 && word(i) ~= guess) 
+          
+            fprintf('  ---------|   \n')
+            fprintf('  |        0   \n')
+            fprintf('  |       /|%s \n', dash)
+            fprintf('  |       /    \n', dash)
+            fprintf('  |            \n')
+            fprintf('__|__          \n')  
+        
+            strikes = strikes + 1;
+            
+        elseif (strikes == 6 && word(i) ~= guess)
+          
+            fprintf('  ---------|   \n')
+            fprintf('  |        0   \n')
+            fprintf('  |       /|%s \n', dash)
+            fprintf('  |       / %s \n', dash)
+            fprintf('  |            \n')
+            fprintf('__|__          \n')  
+        
+            strikes = strikes + 1;
+            
+        end
+        
+    
+    if answer == word
+    
+        play = 0;
+        fprintf('\nYou Won!!\n')
+        strikes = 7;
+    
     end
     
-    if (n == 0) % wrong letter
-        fprintf('\nSorry, thats a wrong letter.\n')
-    else       % correct letter
-        fprintf('\nYes, thats a correct letter!\n')
+    fprintf('\n%s\n', answer);
+    
     end
+    
+end
 
+play = input('\nIf you want to play again press 1 if not press 0, thank you\n');
+
+end
+            
+            
+            
+            
+       
   d = d-1; 
 
   
